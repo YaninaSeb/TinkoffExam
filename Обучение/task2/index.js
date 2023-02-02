@@ -5,7 +5,7 @@ let rl = readline.createInterface({
     output: process.stdout,
 });
 
-let str = '';
+let inputData = [];
 let res = '';
 
 rl.on("close", () => {
@@ -14,15 +14,43 @@ rl.on("close", () => {
 });
 
 rl.on("line", function (data) {
-    str += data;
+    inputData.push(data);
 
-    if (str.length === 2) {
-        if (/[a-z]/.test(str) && /[0-9]/.test(str)) {
-            res = 'YES'
-        } else {
-            res = 'NO'
-        }
+    if (inputData.length == 2 && inputData[1].length == inputData[0]) {
+        let str = inputData[1];
+        res = checkStr(str);
         rl.close();
-    }
+    } 
 });
 
+function checkStr(str) {
+    if (str.length % 2 != 0) return 'NO';
+
+    let lenPart = str.length / 2;
+    for (let i = 0; i < lenPart; i++) {
+        if (str[i] !== str[i + lenPart]) {
+            let isEqual = checkSides(str.split(''), i, i + lenPart);
+            return isEqual ? 'YES' : 'NO';
+        }
+    }
+
+    return 'YES';
+}
+
+function checkSides(arr, firstInd, secondInd) {
+    for (let i = firstInd + 1; i < arr.length; i++) {
+        let elem = arr[i];
+        if (elem === arr[secondInd] && i !== secondInd) {
+            let temporary = arr[firstInd]
+            arr[firstInd] = arr[i];
+            arr[i] = temporary;
+
+            let leftPart = arr.slice(0, arr.length / 2).join('');
+            let rightPart = arr.slice(arr.length / 2).join('');
+
+            if (leftPart == rightPart) return true
+        }
+    }
+
+    return false;
+}

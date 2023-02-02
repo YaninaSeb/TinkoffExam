@@ -7,17 +7,18 @@ let rl = readline.createInterface({
 });
 
 let inputData = [];
-let res = [];
+let res = '';
 
 rl.on("close", () => {
-    console.log(res.join('\n'));
+    res = res.slice(0, res.length - 1);
+    console.log(res);
     process.exit(0);
 });
 
 rl.on("line", function (data) {
     inputData.push(data);
 
-    if (inputData.length >= 3 && inputData.length == 3 + +inputData[2]) {
+    if (inputData.length >= 3 && inputData.length == (3 + +inputData[2])) {
         requests();
         rl.close();
     } 
@@ -32,7 +33,7 @@ function requests() {
         
         switch(command) {
             case '0': {
-                arrNum.includes(+num) ? res.push('Yes') : res.push('No');
+                res += arrNum.includes(+num) ? 'Yes\n' : 'No\n';
                 break;
             }
             case '1': {
@@ -46,7 +47,6 @@ function requests() {
             case '3': {
                 let ind = arrNum.indexOf(+num);
                 arrNum.splice(ind, 1);
-                console.log('arrNum', arrNum)
                 break;
             }
         }

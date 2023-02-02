@@ -1,4 +1,6 @@
 import readline from 'readline';
+//const readline = require( 'readline' );
+
 
 let rl = readline.createInterface({
     input: process.stdin,
@@ -18,10 +20,12 @@ rl.on("line", function (data) {
 
     if (str.length === 2) {
         if (/[a-z]/.test(str) && /[0-9]/.test(str)) {
-            res = 'YES'
+            res = 'YES';
         } else {
-            res = 'NO'
+            res = 'NO';
         }
+        rl.close();
+    } else {
         rl.close();
     }
 });
